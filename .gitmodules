@@ -1,0 +1,6 @@
+[submodule "mio"]
+	path = mio
+	url = https://github.com/mandreyel/mio
+[submodule "blaze"]
+	path = blaze
+	url = https://bitbucket.org/blaze-lib/blaze.git
