@@ -28,3 +28,5 @@ int main() {
 }
 
 ```
+
+This can be simplified, as desired, by simply getting a reference to the base matrix (`auto &matr = ~pmat`).
