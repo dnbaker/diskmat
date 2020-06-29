@@ -11,7 +11,7 @@ which defaults to in-memory if the space consumed is below a threshold and falls
 #include <diskmat/diskmat.h>
 
 int main() {
-    blaze::PolymorphicMat<float> pmat(100000, 1000000);
+    diskmat::PolymorphicMat<float> pmat(100000, 1000000);
     // pmat is now a 4 terabyte matrix on disk
     // Initializing
     std::uniform_real_distribution<float> urd;
@@ -25,6 +25,7 @@ int main() {
     // Matrix multiplications, inc. via BLAS bindings
     // blaze::DynamicVector<float> mvp = (~pmat) * meanvec;
     // and most other techniques
+    diskmat::PolymorphicMat<float> smallermat(1000, 40000); // This is allocated on the heap
 }
 
 ```

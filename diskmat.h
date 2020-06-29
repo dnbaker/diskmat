@@ -2,6 +2,7 @@
 #ifndef DISK_MAT_H__
 #define DISK_MAT_H__
 #include <memory>
+#include <mutex>
 #include "mio/single_include/mio/mio.hpp"
 #include <cstring>
 #include <string>
@@ -151,6 +152,24 @@ public:
     }
     CMType &operator~() {return cm_;}
     const CMType &operator~() const {return cm_;}
+};
+
+struct DiskBufferTracker {
+    size_t limit_, used_;
+    std::mutex mut_;
+    DiskBufferTracker(size_t limit=DEFAULT_MAX_NRAMBYTES): limit_(limit), used_(0) {}
+    template<typename FT=float, blaze::StorageOrder SO=blaze::rowMajor>
+    auto make_matrix(size_t nr, size_t nc) {
+        size_t nelem = blaze::nextMultiple<size_t>(nc, blaze::SIMDTrait<FT>::size) * nr;
+        size_t nb = nelem * sizeof(FT);
+        std::lock_guard<std::mutex> lock(mut_);
+        if(nb <= used_) {
+            used_ -= nb;
+        } else {
+            nb = 0; // Let the application know that its limit has been reached.
+        }
+        return PolymorphicMat<FT, SO>(nr, nc, nb);
+    }
 };
 
 } // namespace diskmat
