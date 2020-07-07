@@ -158,7 +158,7 @@ struct DiskBufferTracker {
     size_t limit_, used_;
     std::mutex mut_;
     DiskBufferTracker(size_t limit=DEFAULT_MAX_NRAMBYTES): limit_(limit), used_(0) {}
-    template<typename FT=float, blaze::StorageOrder SO=blaze::rowMajor>
+    template<typename FT=float, bool SO=blaze::rowMajor>
     auto make_matrix(size_t nr, size_t nc) {
         size_t nelem = blaze::nextMultiple<size_t>(nc, blaze::SIMDTrait<FT>::size) * nr;
         size_t nb = nelem * sizeof(FT);
