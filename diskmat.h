@@ -113,6 +113,8 @@ struct DiskMat {
     auto columns() const {return mat_.columns();}
     MatType       &operator~()       {return mat_;}
     const MatType &operator~() const {return mat_;}
+    MatType &operator*() {return mat_;}
+    const MatType &operator*() const {return mat_;}
 }; // DiskMat
 
 template<typename VT, bool SO, bool isPadded, bool isAligned, bool checked=true>
@@ -152,6 +154,8 @@ public:
     }
     CMType &operator~() {return cm_;}
     const CMType &operator~() const {return cm_;}
+    CMType &operator*() {return cm_;}
+    const CMType &operator*() const {return cm_;}
 };
 
 struct DiskBufferTracker {
